@@ -4,7 +4,7 @@ metadata:
   name: flask-metrics
   namespace: monitoring
   labels:
-    release: monitoring   # Must match your Prometheus Helm release
+    release: monitoring   # must match your Prometheus Helm release name
 spec:
   selector:
     matchLabels:
@@ -16,7 +16,3 @@ spec:
     - port: http
       path: /metrics
       interval: 15s
-ports:
-  - name: http
-    port: 5000
-    targetPort: 5000
