@@ -1,0 +1,8 @@
+global: {}
+route:
+  group_by: ['alertname']
+  receiver: 'snow-webhook'
+receivers:
+- name: 'snow-webhook'
+  webhook_configs:
+  - url: 'http://snow-relay.default.svc:8080/alert'

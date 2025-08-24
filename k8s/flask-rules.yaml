@@ -1,0 +1,24 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: flask-metrics-rules
+  labels:
+    release: monitoring
+spec:
+  groups:
+  - name: flask.rules
+    rules:
+    - alert: HighP95Latency
+      expr: histogram_quantile(0.95, sum by (le) (rate(flask_http_request_duration_seconds_bucket[5m]))) > 0.25
+      for: 2m
+      labels: { severity: warning }
+      annotations:
+        summary: "High P95 latency (>250ms)"
+        description: "Latency is {{ $value }}s for >2m."
+    - alert: HighErrorRate
+      expr: sum(rate(flask_http_request_total{status=~"5.."}[5m])) > 0.1
+      for: 2m
+      labels: { severity: critical }
+      annotations:
+        summary: "High 5xx error rate"
+        description: "5xx > 0.1 rps for >2m."

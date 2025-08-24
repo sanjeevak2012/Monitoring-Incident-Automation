@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-metrics
+  labels:
+    app: flask-metrics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-metrics
+  template:
+    metadata:
+      labels:
+        app: flask-metrics
+    spec:
+      containers:
+      - name: app
+        image: flask-metrics:1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 5000
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5
