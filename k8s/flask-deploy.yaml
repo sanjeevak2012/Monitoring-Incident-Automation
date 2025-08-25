@@ -27,3 +27,7 @@ spec:
             port: 5000
           initialDelaySeconds: 5
           periodSeconds: 5
+
+containers:
+  - name: flask
+    image: flask-metrics:1.0
