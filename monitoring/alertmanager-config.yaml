@@ -6,3 +6,16 @@ receivers:
 - name: 'snow-webhook'
   webhook_configs:
   - url: 'http://snow-relay.default.svc:8080/alert'
+
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: 'default-receiver'
+
+receivers:
+  - name: 'default-receiver'
+    slack_configs:
+      - send_resolved: true
+        channel: '#alerts'
+        api_url: '<SLACK_WEBHOOK_URL>'
